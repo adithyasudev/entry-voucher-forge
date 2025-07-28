@@ -61,7 +61,12 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				'sales-header': 'hsl(var(--sales-header))',
+				'sales-header-foreground': 'hsl(var(--sales-header-foreground))',
+				'sales-detail': 'hsl(var(--sales-detail))',
+				'sales-detail-foreground': 'hsl(var(--sales-detail-foreground))',
+				'sales-table-border': 'hsl(var(--sales-table-border))'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

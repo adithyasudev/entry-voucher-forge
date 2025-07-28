@@ -36,6 +36,13 @@ All colors MUST be HSL.
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
 
+    /* Sales Entry Specific Colors */
+    --sales-header: 60 100% 75%;
+    --sales-header-foreground: 222.2 84% 4.9%;
+    --sales-detail: 45 100% 90%;
+    --sales-detail-foreground: 222.2 84% 4.9%;
+    --sales-table-border: 0 0% 80%;
+
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
