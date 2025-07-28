@@ -167,12 +167,12 @@ const SalesEntry: React.FC = () => {
           </h1>
           
           {/* Mock Data Indicator */}
-          <div className="text-center mb-4">
+          {/* <div className="text-center mb-4">
             <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
               <TestTube className="h-4 w-4" />
               Testing Mode - Mock data available for testing
             </div>
-          </div>
+          </div> */}
           
           {error && (
             <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
@@ -181,23 +181,9 @@ const SalesEntry: React.FC = () => {
           )}
 
           <div className="flex justify-center gap-4 mb-4 flex-wrap">
-            <Button
-              onClick={loadSampleData}
-              variant="secondary"
-              className="flex items-center gap-2"
-            >
-              <Database className="h-4 w-4" />
-              Load Sample Data
-            </Button>
             
-            <Button
-              onClick={testCalculations}
-              variant="secondary"
-              className="flex items-center gap-2"
-            >
-              <TestTube className="h-4 w-4" />
-              Test Calculations
-            </Button>
+            
+            
             
             <Button
               onClick={handleSave}

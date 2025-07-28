@@ -29,7 +29,7 @@ interface SalesState {
   itemMaster: ItemMaster[];
   loading: boolean;
   error: string | null;
-  lastSavedData: any;
+  lastSavedData: null;
 }
 
 const initialState: SalesState = {
@@ -91,28 +91,34 @@ const salesSlice = createSlice({
     updateHeader: (state, action: PayloadAction<Partial<HeaderData>>) => {
       state.header = { ...state.header, ...action.payload };
     },
-    updateDetail: (state, action: PayloadAction<{ index: number; field: keyof DetailItem; value: any }>) => {
+    
+    updateDetail: (
+      state,
+      action: PayloadAction<{
+        index: number;
+        field: keyof DetailItem;
+        value: DetailItem[keyof DetailItem];
+      }>
+    ) => {
       const { index, field, value } = action.payload;
       if (state.details[index]) {
-        (state.details[index] as any)[field] = value;
-        
-        // Calculate amount when qty or rate changes
+        state.details[index][field] = value as never;
+
         if (field === 'qty' || field === 'rate') {
           state.details[index].amount = state.details[index].qty * state.details[index].rate;
         }
-        
-        // Update item_name when item_code changes
+
         if (field === 'item_code') {
-          const item = state.itemMaster.find(item => item.item_code === value);
+          const item = state.itemMaster.find((item) => item.item_code === value);
           if (item) {
             state.details[index].item_name = item.item_name;
           }
         }
-        
-        // Recalculate total amount
+
         state.header.ac_amt = state.details.reduce((sum, detail) => sum + detail.amount, 0);
       }
     },
+
     addDetailRow: (state) => {
       const newSrNo = state.details.length + 1;
       state.details.push({
@@ -125,18 +131,18 @@ const salesSlice = createSlice({
         amount: 0,
       });
     },
+
     removeDetailRow: (state, action: PayloadAction<number>) => {
       const index = action.payload;
       if (state.details.length > 1) {
         state.details.splice(index, 1);
-        // Update serial numbers
         state.details.forEach((detail, idx) => {
           detail.sr_no = idx + 1;
         });
-        // Recalculate total amount
         state.header.ac_amt = state.details.reduce((sum, detail) => sum + detail.amount, 0);
       }
     },
+
     resetForm: (state) => {
       state.header = {
         vr_no: 0,
@@ -156,16 +162,18 @@ const salesSlice = createSlice({
       }];
       state.error = null;
     },
+
     loadMockData: (state, action: PayloadAction<{ header: HeaderData; details: DetailItem[] }>) => {
       state.header = action.payload.header;
       state.details = action.payload.details;
-      // Calculate total amount
       state.header.ac_amt = state.details.reduce((sum, detail) => sum + detail.amount, 0);
     },
+
     setMockItemMaster: (state, action: PayloadAction<ItemMaster[]>) => {
       state.itemMaster = action.payload;
     },
   },
+
   extraReducers: (builder) => {
     builder
       .addCase(fetchItemMaster.pending, (state) => {
@@ -194,6 +202,7 @@ const salesSlice = createSlice({
   },
 });
 
+
 export const {
   updateHeader,
   updateDetail,
@@ -203,5 +212,6 @@ export const {
   loadMockData,
   setMockItemMaster,
 } = salesSlice.actions;
+
 
 export default salesSlice.reducer;

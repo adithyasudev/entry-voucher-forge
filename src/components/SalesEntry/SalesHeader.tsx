@@ -71,7 +71,7 @@ const SalesHeader: React.FC = () => {
         {/* Action Buttons Placeholder */}
         <div className="space-y-2">
           <div className="h-6"></div> {/* Spacer for alignment */}
-          <div className="flex flex-col gap-1">
+          {/* <div className="flex flex-col gap-1">
             <button className="bg-gray-200 hover:bg-gray-300 px-3 py-1 text-sm rounded border border-sales-table-border">
               New
             </button>
@@ -84,7 +84,8 @@ const SalesHeader: React.FC = () => {
             <button className="bg-gray-200 hover:bg-gray-300 px-3 py-1 text-sm rounded border border-sales-table-border">
               Print
             </button>
-          </div>
+            
+          </div> */}
         </div>
       </div>
 

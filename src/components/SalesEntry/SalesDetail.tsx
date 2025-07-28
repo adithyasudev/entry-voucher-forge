@@ -15,9 +15,13 @@ const SalesDetail: React.FC = () => {
     dispatch(fetchItemMaster());
   }, [dispatch]);
 
-  const handleFieldChange = (index: number, field: keyof DetailItem, value: any) => {
-    dispatch(updateDetail({ index, field, value }));
-  };
+  const handleFieldChange = <T extends keyof DetailItem>(
+  index: number,
+  field: T,
+  value: DetailItem[T]
+) => {
+  dispatch(updateDetail({ index, field, value }));
+};
 
   const handleAddRow = () => {
     dispatch(addDetailRow());

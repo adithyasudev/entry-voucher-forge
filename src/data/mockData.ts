@@ -14,7 +14,7 @@ export const mockSalesData = {
     vr_no: 1001,
     vr_date: "2024-01-15",
     ac_name: "ABC Corporation Ltd.",
-    ac_amt: 0, // Will be calculated
+    ac_amt: 0, 
     status: "A" as const,
   },
   details: [
