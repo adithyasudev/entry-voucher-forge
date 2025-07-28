@@ -156,6 +156,15 @@ const salesSlice = createSlice({
       }];
       state.error = null;
     },
+    loadMockData: (state, action: PayloadAction<{ header: HeaderData; details: DetailItem[] }>) => {
+      state.header = action.payload.header;
+      state.details = action.payload.details;
+      // Calculate total amount
+      state.header.ac_amt = state.details.reduce((sum, detail) => sum + detail.amount, 0);
+    },
+    setMockItemMaster: (state, action: PayloadAction<ItemMaster[]>) => {
+      state.itemMaster = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -191,6 +200,8 @@ export const {
   addDetailRow,
   removeDetailRow,
   resetForm,
+  loadMockData,
+  setMockItemMaster,
 } = salesSlice.actions;
 
 export default salesSlice.reducer;

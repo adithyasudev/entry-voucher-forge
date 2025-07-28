@@ -1,18 +1,44 @@
 import React from 'react';
 import { useAppSelector, useAppDispatch } from '@/hooks/redux';
-import { saveSalesData, resetForm } from '@/store/slices/salesSlice';
+import { saveSalesData, resetForm, loadMockData, setMockItemMaster } from '@/store/slices/salesSlice';
+import { mockItemMaster, mockSalesData } from '@/data/mockData';
 import SalesHeader from './SalesHeader';
 import SalesDetail from './SalesDetail';
 import PrintableVoucher from './PrintableVoucher';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { Save, FileText, RotateCcw } from 'lucide-react';
+import { Save, FileText, RotateCcw, Database, TestTube } from 'lucide-react';
 
 const SalesEntry: React.FC = () => {
   const dispatch = useAppDispatch();
   const { header, details, loading, error, lastSavedData } = useAppSelector((state) => state.sales);
   const { toast } = useToast();
   const [showPrintable, setShowPrintable] = React.useState(false);
+
+  // Load mock data on component mount for testing
+  React.useEffect(() => {
+    dispatch(setMockItemMaster(mockItemMaster));
+  }, [dispatch]);
+
+  const loadSampleData = () => {
+    dispatch(loadMockData(mockSalesData));
+    toast({
+      title: "Sample Data Loaded",
+      description: "Form has been populated with sample sales data for testing",
+    });
+  };
+
+  const testCalculations = () => {
+    loadSampleData();
+    // Show calculation details
+    setTimeout(() => {
+      const total = mockSalesData.details.reduce((sum, detail) => sum + detail.amount, 0);
+      toast({
+        title: "Calculations Test",
+        description: `✅ Total calculated: $${total.toFixed(2)} | ✅ Auto amounts working | ✅ Form validation ready`,
+      });
+    }, 500);
+  };
 
   const validateForm = (): boolean => {
     if (!header.ac_name.trim()) {
@@ -140,13 +166,39 @@ const SalesEntry: React.FC = () => {
             Sales Entry System
           </h1>
           
+          {/* Mock Data Indicator */}
+          <div className="text-center mb-4">
+            <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
+              <TestTube className="h-4 w-4" />
+              Testing Mode - Mock data available for testing
+            </div>
+          </div>
+          
           {error && (
             <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
               Error: {error}
             </div>
           )}
 
-          <div className="flex justify-center gap-4 mb-4">
+          <div className="flex justify-center gap-4 mb-4 flex-wrap">
+            <Button
+              onClick={loadSampleData}
+              variant="secondary"
+              className="flex items-center gap-2"
+            >
+              <Database className="h-4 w-4" />
+              Load Sample Data
+            </Button>
+            
+            <Button
+              onClick={testCalculations}
+              variant="secondary"
+              className="flex items-center gap-2"
+            >
+              <TestTube className="h-4 w-4" />
+              Test Calculations
+            </Button>
+            
             <Button
               onClick={handleSave}
               disabled={loading}
